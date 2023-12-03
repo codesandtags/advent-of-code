@@ -24,4 +24,11 @@ describe("day-01: part 2", () => {
 
     expect(result).toBe(281);
   });
+
+  test("Should find calibration for part 2", async () => {
+    const input = "/input.txt";
+    const result = await solution2(input);
+
+    expect(result).toBe(54518);
+  });
 });

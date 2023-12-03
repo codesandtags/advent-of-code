@@ -8,7 +8,8 @@ Here are documenting my solutions to the puzzles.
 
 ### Solutions
 
-- [Day 1](./2023/day-1)
+- [Day 1](./2023/day-01)
+- [Day 2](./2023/day-02)
 
 ## Tech Stack
 

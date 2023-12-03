@@ -34,17 +34,16 @@ export async function solution(input: string) {
 }
 
 // Word map for numbers from one to nine
-const allNumbers = new RegExp(/one|two|three|four|five|six|seven|eight|nine/gi);
 const wordMap = {
-  one: 1,
-  two: 2,
-  three: 3,
-  four: 4,
-  five: 5,
-  six: 6,
-  seven: 7,
-  eight: 8,
-  nine: 9,
+  one: "1",
+  two: "2",
+  three: "3",
+  four: "4",
+  five: "5",
+  six: "6",
+  seven: "7",
+  eight: "8",
+  nine: "9",
 };
 
 export async function solution2(input: string) {
@@ -52,18 +51,22 @@ export async function solution2(input: string) {
   let sum = 0;
 
   for (const line of lines) {
-    const matches = line.match(allNumbers) || [];
-    let replacedNumbers = line;
+    const digits = [];
+    let position = 0;
 
-    for (const match of matches) {
-      replacedNumbers = match
-        ? replacedNumbers.replace(match, wordMap[match])
-        : replacedNumbers;
+    for (const character of line) {
+      if (!Number.isNaN(parseInt(character))) {
+        digits.push(character);
+      }
+
+      for (const [key, value] of Object.entries(wordMap)) {
+        if (line.startsWith(key, position)) {
+          digits.push(value);
+        }
+      }
+      position++;
     }
 
-    const digits = replacedNumbers
-      .split("")
-      .filter((character) => !Number.isNaN(parseInt(character)));
     const first = digits[0];
     const last = digits.at(-1);
     sum += Number(first + last);
