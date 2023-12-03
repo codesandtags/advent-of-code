@@ -4,13 +4,8 @@
  *
  * https://adventofcode.com/2023/day/1
  */
-export async function getLines(filePath: string) {
-  const path = import.meta.dir + filePath;
-  const file = Bun.file(path, { type: "utf-8" });
-  const lines = await file.text();
 
-  return lines.split("\n");
-}
+import { getLines } from "../utils/read-input";
 
 export async function solution(input: string) {
   const lines = await getLines(input);
