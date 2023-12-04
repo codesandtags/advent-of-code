@@ -13,9 +13,9 @@ const GAME_RULES = {
   blue: 14,
 };
 
-export async function partOne(input: string) {
+const getGamesAndCombinations = async (input: string) => {
   const lines = await getLines(input);
-  let sum = 0;
+  const games = [];
 
   for (const line of lines) {
     const sections = line.split(": ");
@@ -27,10 +27,25 @@ export async function partOne(input: string) {
         return { total, color };
       });
     });
+
+    games.push({
+      gameId,
+      combinations,
+    });
+  }
+
+  return games;
+};
+
+export async function partOne(input: string) {
+  const games = await getGamesAndCombinations(input);
+  let sum = 0;
+
+  for (const game of games) {
     let isValid = true;
 
     // Validations
-    for (const combination of combinations) {
+    for (const combination of game.combinations) {
       for (const cube of combination) {
         if (cube.total > GAME_RULES[cube.color]) {
           isValid = false;
@@ -40,9 +55,38 @@ export async function partOne(input: string) {
     }
 
     if (isValid) {
-      sum += Number(gameId);
+      sum += Number(game.gameId);
     }
   }
 
   return sum;
 }
+
+export const partTwo = async (input: string) => {
+  const games = await getGamesAndCombinations(input);
+  let sum = 0;
+
+  for (const game of games) {
+    let red = 0;
+    let green = 0;
+    let blue = 0;
+
+    for (const combination of game.combinations) {
+      const currentRed =
+        combination.find((cube) => cube.color === "red")?.total || 0;
+      const currentGreen =
+        combination.find((cube) => cube.color === "green")?.total || 0;
+      const currentBlue =
+        combination.find((cube) => cube.color === "blue")?.total || 0;
+
+      red = Math.max(red, currentRed);
+      blue = Math.max(blue, currentBlue);
+      green = Math.max(green, currentGreen);
+    }
+
+    const power = red * blue * green;
+    sum += power;
+  }
+
+  return sum;
+};
